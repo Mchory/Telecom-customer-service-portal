@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>User Dashboard - Telecom Portal</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            width: 90%;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 6px;
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .action-button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 30px;
+        }
+
+        .logout-btn:hover {
+            background-color: #b02a37;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="dashboard-container">
+        <h2>Welcome, #{sessionScope.userName}</h2>
+
+        <!-- Active Subscriptions -->
+        <h3>Active Subscriptions</h3>
+        <h:form id="subsForm">
+            <h:dataTable value="#{customerBean.subscriptions}" var="sub">
+                <h:column>
+                    <f:facet name="header">Service</f:facet>
+                    #{sub.serviceName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{sub.status}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandButton value="Deactivate"
+                                     action="#{customerBean.deactivateSubscription(sub.id)}"
+                                     styleClass="action-button"
+                                     rendered="#{sub.status eq 'Active'}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <!-- Billing History -->
+        <h3>Billing History</h3>
+        <h:form id="billingForm">
+            <h:dataTable value="#{customerBean.bills}" var="bill">
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{bill.billingDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Amount</f:facet>
+                    $#{bill.amount}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{bill.status}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <!-- Logout Button  -->
+        <h:form>
+            <h:commandButton value="Logout" action="#{customerBean.logout}" styleClass="logout-btn" />
+        </h:form>
+    </div>
+</h:body>
+</html>

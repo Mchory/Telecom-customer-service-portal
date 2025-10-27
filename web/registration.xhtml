@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <title>Telecom Portal - Register</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-container {
+            background-color: #ffffff;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 420px;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h:messages {
+            color: red;
+        }
+
+        .form-grid {
+            width: 100%;
+        }
+
+        .action-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+
+        .action-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            display: block;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="register-container">
+        <h:form>
+            <h2>Customer Registration</h2>
+            <h:messages globalOnly="true" style="color:red; text-align:center;" />
+
+            <h:panelGrid columns="2" columnClasses="label,value" styleClass="form-grid">
+                <h:outputLabel value="Full Name:" />
+                <h:inputText value="#{customerBean.customer.name}" required="true" />
+
+                <h:outputLabel value="Phone Number:" />
+                <h:inputText value="#{customerBean.customer.phoneNumber}" required="true" />
+
+                <h:outputLabel value="Email:" />
+                <h:inputText value="#{customerBean.customer.email}" required="true" />
+
+                <h:outputLabel value="Password:" />
+                <h:inputSecret value="#{customerBean.customer.password}" required="true" />
+            </h:panelGrid>
+
+            <h:commandButton value="Register" action="#{customerBean.register}" styleClass="action-btn" />
+            <h:link outcome="login.xhtml" value="Already registered? Login here" styleClass="login-link" />
+        </h:form>
+    </div>
+</h:body>
+</html>

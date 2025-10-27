@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Customer Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #004085;
+            border-bottom: 2px solid #cce5ff;
+            padding-bottom: 4px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <!-- Notification messages -->
+        <p:growl id="msgs" showDetail="true" life="3000"/>
+
+        <!-- ===========================
+             Customer Registration
+        ============================ -->
+        <h2>Register New Customer</h2>
+        <p:panelGrid columns="2" columnClasses="label,value" style="margin-bottom:20px">
+
+            <h:outputLabel for="name" value="Name:"/>
+            <p:inputText id="name" value="#{customerBean.customer.name}" required="true"/>
+
+            <h:outputLabel for="phone" value="Phone:"/>
+            <p:inputText id="phone" value="#{customerBean.customer.phoneNumber}" required="true"/>
+
+            <h:outputLabel for="email" value="Email:"/>
+            <p:inputText id="email" value="#{customerBean.customer.email}" required="true"/>
+
+        </p:panelGrid>
+
+        <p:commandButton value="Register"
+                         action="#{customerBean.register}"
+                         update="msgs"
+                         styleClass="ui-button-success"
+                         icon="pi pi-user-plus"/>
+
+
+        <!-- ===========================
+             Active Subscriptions
+        ============================ -->
+        <h:panelGroup style="margin-top:30px;">
+            <h2>Active Subscriptions</h2>
+            <p:commandButton value="Load Subscriptions"
+                             actionListener="#{customerBean.loadSubscriptions}"
+                             update="subsTable"
+                             icon="pi pi-refresh"/>
+
+            <p:dataTable id="subsTable" var="s" value="#{customerBean.subscriptions}"
+                         styleClass="ui-datatable-striped"
+                         emptyMessage="No subscriptions found"
+                         style="margin-top:15px;">
+
+                <p:column headerText="Customer">
+                    <h:outputText value="#{s.customerName}"/>
+                </p:column>
+
+                <p:column headerText="Service">
+                    <h:outputText value="#{s.serviceName}"/>
+                </p:column>
+
+                <p:column headerText="Start Date">
+                    <h:outputText value="#{s.startDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Status">
+                    <h:outputText value="#{s.status}"/>
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+
+        <!-- ===========================
+             Billing History
+        ============================ -->
+        <h:panelGroup style="margin-top:30px;">
+            <h2>Billing History</h2>
+            <p:commandButton value="View Bills"
+                             actionListener="#{customerBean.loadBillingHistory}"
+                             update="billsTable"
+                             icon="pi pi-file"/>
+
+            <p:dataTable id="billsTable" var="b" value="#{customerBean.bills}"
+                         styleClass="ui-datatable-striped"
+                         emptyMessage="No billing records found"
+                         style="margin-top:15px;">
+
+                <p:column headerText="Customer">
+                    <h:outputText value="#{b.customerName}"/>
+                </p:column>
+
+                <p:column headerText="Amount">
+                    <h:outputText value="#{b.amount}"/>
+                </p:column>
+
+                <p:column headerText="Billing Date">
+                    <h:outputText value="#{b.billingDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Paid">
+                    <h:outputText value="#{b.paid ? 'Yes' : 'No'}"/>
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Telecom Portal - Login</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 420px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .action-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .action-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            margin-top: 15px;
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        p:growl {
+            margin-bottom: 15px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="login-container">
+        <h:form>
+            <p:growl id="msgs" showDetail="true" life="3000" />
+
+            <h2>Login</h2>
+
+            <p:panelGrid columns="2" styleClass="form-grid" columnClasses="label,value">
+                <h:outputLabel for="email" value="Email:" />
+                <p:inputText id="email" value="#{loginBean.email}" required="true" />
+
+                <h:outputLabel for="password" value="Password:" />
+                <p:password id="password" value="#{loginBean.password}" required="true" />
+            </p:panelGrid>
+
+            <p:commandButton value="Login"
+                             action="#{loginBean.login}"
+                             update="msgs"
+                             icon="pi pi-sign-in"
+                             styleClass="action-btn" />
+
+            <h:outputText value="Don't have an account? " />
+            <h:link outcome="registration.xhtml" value="Register here." styleClass="register-link" />
+        </h:form>
+    </div>
+</h:body>
+</html>
