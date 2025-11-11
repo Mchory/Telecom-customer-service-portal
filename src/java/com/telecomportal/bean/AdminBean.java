@@ -16,12 +16,15 @@ public class AdminBean implements Serializable {
     private List<Customer> customers;
     private List<Subscription> subscriptions;
     private List<Billing> bills;
+    private List<Service> services; // ✅ list of services
 
     private Billing newBill = new Billing();
+    private Service newService = new Service(); // ✅ for Add Service form
 
     private CustomerDao customerDao = new CustomerDao();
     private SubscriptionDAO subscriptionDao = new SubscriptionDAO();
     private BillingDAO billingDao = new BillingDAO();
+    private ServiceDAO serviceDao = new ServiceDAO(); // ✅ new DAO
 
     // ✅ Automatically load dashboard data when view is created
     @PostConstruct
@@ -34,6 +37,7 @@ public class AdminBean implements Serializable {
         loadCustomers();
         loadSubscriptions();
         loadBilling();
+        loadServices();
     }
 
     // ✅ Load all customers
@@ -49,6 +53,20 @@ public class AdminBean implements Serializable {
     // ✅ Load all billing records
     public void loadBilling() {
         bills = billingDao.listAllBills();
+    }
+
+    // ✅ Load all services
+    public void loadServices() {
+        services = serviceDao.listAllServices();
+    }
+
+    // ✅ Add a new service
+    public void addService() {
+        boolean success = serviceDao.addService(newService);
+        if (success) {
+            newService = new Service(); // reset form
+            loadServices(); // refresh list
+        }
     }
 
     // ✅ Delete a customer
@@ -97,5 +115,21 @@ public class AdminBean implements Serializable {
 
     public void setNewBill(Billing newBill) {
         this.newBill = newBill;
+    }
+
+    public Service getNewService() {
+        return newService;
+    }
+
+    public void setNewService(Service newService) {
+        this.newService = newService;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 }

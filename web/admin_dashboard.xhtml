@@ -135,6 +135,7 @@
             </h:dataTable>
         </h:form>
 
+
         <!-- All Subscriptions -->
         <div class="section">
             <h2>All Subscriptions</h2>
@@ -188,7 +189,67 @@
             </h:form>
         </div>
 
-        <!-- Logout Button  -->
+        <!-- Services Management -->
+        <div class="section">
+            <h2>Services</h2>
+
+            <!-- Add Service Button -->
+            <p:commandButton value="Add New Service"
+                             icon="pi pi-plus"
+                             onclick="PF('addServiceDialog').show();"
+                             styleClass="action-button" />
+
+            <!-- Services Table -->
+            <h:form id="servicesForm">
+                <h:dataTable value="#{adminBean.services}" var="srv">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{srv.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{srv.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        #{srv.description}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Monthly Fee</f:facet>
+                        $#{srv.monthlyFee}
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+
+            <!-- Add Service Popup -->
+            <p:dialog header="Add New Service"
+                      widgetVar="addServiceDialog"
+                      modal="true"
+                      resizable="false"
+                      closable="true">
+
+                <h:form id="addServiceForm">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="Service Name:" for="name" />
+                        <h:inputText id="name" value="#{adminBean.newService.name}" required="true" />
+
+                        <h:outputLabel value="Description:" for="desc" />
+                        <h:inputTextarea id="desc" value="#{adminBean.newService.description}" rows="3" />
+
+                        <h:outputLabel value="Monthly Fee:" for="fee" />
+                        <h:inputText id="fee" value="#{adminBean.newService.monthlyFee}" required="true" />
+                    </h:panelGrid>
+
+                    <p:commandButton value="Save"
+                                     action="#{adminBean.addService}"
+                                     update=":servicesForm"
+                                     oncomplete="PF('addServiceDialog').hide();"
+                                     style="margin-top:10px; background-color:#007bff; color:white;" />
+                </h:form>
+            </p:dialog>
+        </div>
+
+        <!-- Logout Button -->
         <h:form>
             <h:commandButton value="Logout" action="#{customerBean.logout}" styleClass="logout-btn" />
         </h:form>
